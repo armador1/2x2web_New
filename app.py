@@ -35,7 +35,7 @@ def invtranslDB(sts):
     # print(type(sts[0]))
     st = ''
     for i in range(0,len(sts)):
-        print(sts[i]-1)
+        # print(sts[i]-1)
         st=st + dic[sts[i]-1]
 
     return st
@@ -221,7 +221,7 @@ def state_details(tstate_id):
     state_id = inv_transl_state_id(tstate_id)
     conn = get_db_connection()
     cursor = conn.cursor()
-    print(ast.literal_eval(state_id))
+    # print(ast.literal_eval(state_id))
     try:
         cursor.execute("SELECT solutions, moves, oo FROM solutionsTable WHERE state = ?", (invtranslDB(state_id),))
         result = cursor.fetchone()
@@ -496,11 +496,11 @@ def search2():
             found_state = results['state']
             manage_folder(SUBIMAGE_FOLDER)
             sub_st2img(translDB(found_state))
-            print(translDB(found_state))
+            # print(translDB(found_state))
             image_filename = generate_image_name(ast.literal_eval(translDB(found_state)))
-            print(image_filename)
+            # print(image_filename)
             image_url = url_for('static', filename=f'SubImages/{image_filename}')
-            print(image_url)
+            # print(image_url)
             return render_template('state_details.html',
                                    state=translDB(found_state),
                                    solutions=json.loads(results['solutions']),
