@@ -19,24 +19,27 @@ SUBIMAGE_FOLDER = 'static/SubImages/'
 
 
 def translDB(sts):
-    dic = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x']
+    dic = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+           'w', 'x']
 
-    st = [0]*24
-    for i in range(0,len(sts)):
-        st[i]=str(dic.index(sts[i])+1)
-    sst = '['+','.join(st)+']'
+    st = [0] * 24
+    for i in range(0, len(sts)):
+        st[i] = str(dic.index(sts[i]) + 1)
+    sst = '[' + ','.join(st) + ']'
 
     return sst
 
+
 def invtranslDB(sts):
-    dic = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x']
+    dic = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+           'w', 'x']
     sts = ast.literal_eval(sts)
     # print(type(sts))
     # print(type(sts[0]))
     st = ''
-    for i in range(0,len(sts)):
+    for i in range(0, len(sts)):
         # print(sts[i]-1)
-        st=st + dic[sts[i]-1]
+        st = st + dic[sts[i] - 1]
 
     return st
 
@@ -192,7 +195,7 @@ def methods_and_labels(state):
 
     methods2 = [
         {"condition": cursor.execute(f"SELECT 1 FROM {table} WHERE state = ? LIMIT 1",
-                                                                  (state,)).fetchone() is not None,
+                                     (state,)).fetchone() is not None,
          "label": table, "class": f"bubble-{table.lower()}", "is_number": False}
         for table in tables
     ]
@@ -373,7 +376,7 @@ def query_states(include_tables, exclude_tables, page_number=1, page_size=50):
 
         # for i in range(0,len(missing_states)):
         #     missing_states[i]=translDB(missing_states[i])
-        
+
         manage_folder(IMAGE_FOLDER)
 
         if missing_states:
