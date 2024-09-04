@@ -6,6 +6,9 @@ import shutil
 
 def add_OO(old_state, new_state, rotation, alg):
 
+    old_state = Main.invtranslDB(old_state)
+    new_state = Main.invtranslDB(new_state)
+
     conn = sqlite3.connect('oo.db')
     cursor = conn.cursor()
 
@@ -17,7 +20,6 @@ def add_OO(old_state, new_state, rotation, alg):
     cursor.execute("UPDATE solutionsTable SET oo = ? WHERE state = ?", (alg, new_state))
     cursor.execute(f'''SELECT solutions from solutionsTable WHERE state = "{new_state}"''')
     solutions_json = cursor.fetchone()
-    print(solutions_json)
     solutions = json.loads(solutions_json[0])
     new_solutions = []
     for solution in solutions:
@@ -29,16 +31,10 @@ def add_OO(old_state, new_state, rotation, alg):
     conn.close()
 
 
-def main():
+shutil.copy("oo.db", "oo_BACKUP.db")
 
-    shutil.copy("oo.db", "oo_BACKUP.db")
-
-    with open("checked.txt", 'r') as file:
-        for line in file:
-            if "Invalid OO" not in line:
-                parts = line.split('\t')
-                add_OO(parts[0].strip(), parts[1].strip(), parts[2].strip(), parts[3].strip())
-
-
-if __name__ == "__main__":
-    main()
+with open("checked.txt", 'r') as file:
+    for line in file:
+        if "Invalid OO" not in line:
+            parts = line.split('\t')
+            add_OO(parts[0].strip(), parts[1].strip(), parts[2].strip(), parts[3].strip())

@@ -18,32 +18,6 @@ IMAGE_FOLDER = 'static/Images/'
 SUBIMAGE_FOLDER = 'static/SubImages/'
 
 
-def translDB(sts):
-    dic = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-           'w', 'x']
-
-    st = [0] * 24
-    for i in range(0, len(sts)):
-        st[i] = str(dic.index(sts[i]) + 1)
-    sst = '[' + ','.join(st) + ']'
-
-    return sst
-
-
-def invtranslDB(sts):
-    dic = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-           'w', 'x']
-    sts = ast.literal_eval(sts)
-    # print(type(sts))
-    # print(type(sts[0]))
-    st = ''
-    for i in range(0, len(sts)):
-        # print(sts[i]-1)
-        st = st + dic[sts[i] - 1]
-
-    return st
-
-
 def get_db_connection():
     conn = sqlite3.connect("oo.db")
     conn.row_factory = sqlite3.Row
@@ -164,7 +138,7 @@ def info():
 
 
 def methods_and_labels(state):
-    state = invtranslDB(state)
+    state = Main.invtranslDB(state)
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -226,7 +200,7 @@ def state_details(tstate_id):
     cursor = conn.cursor()
     # print(ast.literal_eval(state_id))
     try:
-        cursor.execute("SELECT solutions, moves, oo FROM solutionsTable WHERE state = ?", (invtranslDB(state_id),))
+        cursor.execute("SELECT solutions, moves, oo FROM solutionsTable WHERE state = ?", (Main.invtranslDB(state_id),))
         result = cursor.fetchone()
 
         if result:
@@ -397,7 +371,7 @@ def query_states(include_tables, exclude_tables, page_number=1, page_size=50):
 
             result_data = []
             for state, solutions_json, oo in results:
-                statel = ast.literal_eval(translDB(state))
+                statel = ast.literal_eval(Main.translDB(state))
                 # print(statel)
                 solutions = json.loads(solutions_json)
                 try:
@@ -488,7 +462,7 @@ def search2():
 
         results = None
         for st in state_list:
-            cursor.execute("SELECT * FROM solutionsTable WHERE state = ? LIMIT 1", (invtranslDB(st),))
+            cursor.execute("SELECT * FROM solutionsTable WHERE state = ? LIMIT 1", (Main.invtranslDB(st),))
             results = cursor.fetchone()
             if results:
                 break
@@ -498,19 +472,19 @@ def search2():
         if results:
             found_state = results['state']
             manage_folder(SUBIMAGE_FOLDER)
-            sub_st2img(translDB(found_state))
+            sub_st2img(Main.translDB(found_state))
             # print(translDB(found_state))
-            image_filename = generate_image_name(ast.literal_eval(translDB(found_state)))
+            image_filename = generate_image_name(ast.literal_eval(Main.translDB(found_state)))
             # print(image_filename)
             image_url = url_for('static', filename=f'SubImages/{image_filename}')
             # print(image_url)
             return render_template('state_details.html',
-                                   state=translDB(found_state),
+                                   state=Main.translDB(found_state),
                                    solutions=json.loads(results['solutions']),
                                    image_url=image_url,
                                    moves=results['moves'],
                                    oo=results['oo'],
-                                   methods_and_labels=methods_and_labels(translDB(found_state)))
+                                   methods_and_labels=methods_and_labels(Main.translDB(found_state)))
         else:
             return "No se encontró el estado.", 404
 

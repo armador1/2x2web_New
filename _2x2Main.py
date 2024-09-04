@@ -1,5 +1,6 @@
 import copy
 import re
+import ast
 
 
 def Solved():
@@ -295,3 +296,29 @@ def new_orientation(alg, rotation):
     alg = re.sub(r'R', ' R', alg)
 
     return alg.strip()
+
+
+def translDB(sts):
+    dic = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+           'w', 'x']
+
+    st = [0] * 24
+    for i in range(0, len(sts)):
+        st[i] = str(dic.index(sts[i]) + 1)
+    sst = '[' + ','.join(st) + ']'
+
+    return sst
+
+
+def invtranslDB(sts):
+    dic = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+           'w', 'x']
+    sts = ast.literal_eval(sts)
+    # print(type(sts))
+    # print(type(sts[0]))
+    st = ''
+    for i in range(0, len(sts)):
+        # print(sts[i]-1)
+        st = st + dic[sts[i] - 1]
+
+    return st
