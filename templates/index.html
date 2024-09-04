@@ -15,95 +15,98 @@
         <h1>Optimal 2x2x2 Cube</h1>
     </header>
 
-    <div class="container">
-        <a href="{{ url_for('info') }}" class="back-link">How does this work?</a>
-        <form action="/search" method="POST">
-            <div class="form-group">
-                <div>
-                    <h3>Including:</h3>
-                    <label><input type="checkbox" name="tables_include" value="CLL"> CLL</label><br>
-                    <label><input type="checkbox" name="tables_include" value="EG1"> EG1</label><br>
-                    <label><input type="checkbox" name="tables_include" value="EG2"> EG2</label><br>
-                    <label><input type="checkbox" name="tables_include" value="TCLL"> TCLL</label><br>
-                    <label><input type="checkbox" name="tables_include" value="TEG1"> TEG1</label><br>
-                    <label><input type="checkbox" name="tables_include" value="TEG2"> TEG2</label><br>
-                    <label><input type="checkbox" name="tables_include" value="LS"> LS</label><br>
-                    <label><input type="checkbox" name="tables_include" value="LSEG1"> LSEG1</label><br>
-                    <label><input type="checkbox" name="tables_include" value="LSEG2"> LSEG2</label><br>
-                    <label><input type="checkbox" name="tables_include" value="CBL"> CBL</label><br>
-                    <label>Full bars:
-                        <select id="Bar" onchange="updateHiddenInput('Bar')">
-                            <option value="">No selection</option>
-                            {% for i in range(0, 9) %}
-                                <option value="{{i}}">{{ i }}</option>
-                            {% endfor %}
-                        </select>
-                    </label><br>
-                    <label>Adjacent bars:
-                        <select id="ABar" onchange="updateHiddenInput('ABar')">
-                            <option value="">No selection</option>
-                            {% for i in range(0, 7) %}
-                                <option value="{{i}}">{{ i }}</option>
-                            {% endfor %}
-                        </select>
-                    </label><br>
-                    <label>Opposite bars:
-                        <select id="OBar" onchange="updateHiddenInput('OBar')">
-                            <option value="">No selection</option>
-                            {% for i in range(0, 9) %}
-                                <option value="{{i}}">{{ i }}</option>
-                            {% endfor %}
-                            <option value="12">12</option>
-                        </select>
-                    </label><br>
-                    <label>Diagonals:
-                        <select id="Diag" onchange="updateHiddenInput('Diag')">
-                            <option value="">No selection</option>
-                            {% for i in range(0, 9) %}
-                                <option value="{{i}}">{{ i }}</option>
-                            {% endfor %}
-                        </select>
-                    </label><br>
-                    <label>Adjacent diagonals:
-                        <select id="ADiag" onchange="updateHiddenInput('ADiag')">
-                            <option value="">No selection</option>
-                            {% for i in range(0, 7) %}
-                                <option value="{{i}}">{{ i }}</option>
-                            {% endfor %}
-                        </select>
-                    </label><br>
-                    <input type="hidden" id="BarTable" name="tables_include">
-                    <input type="hidden" id="ABarTable" name="tables_include">
-                    <input type="hidden" id="OBarTable" name="tables_include">
-                    <input type="hidden" id="DiagTable" name="tables_include">
-                    <input type="hidden" id="ADiagTable" name="tables_include">
+    <main>
+        <div class="container">
+            <a href="{{ url_for('info') }}" class="back-link">How does this work?</a>
+            <form action="/search" method="POST">
+                <div class="form-group">
+                    <div>
+                        <h3>Including:</h3>
+                        <label><input type="checkbox" name="tables_include" value="CLL"> CLL</label><br>
+                        <label><input type="checkbox" name="tables_include" value="EG1"> EG1</label><br>
+                        <label><input type="checkbox" name="tables_include" value="EG2"> EG2</label><br>
+                        <label><input type="checkbox" name="tables_include" value="TCLL"> TCLL</label><br>
+                        <label><input type="checkbox" name="tables_include" value="TEG1"> TEG1</label><br>
+                        <label><input type="checkbox" name="tables_include" value="TEG2"> TEG2</label><br>
+                        <label><input type="checkbox" name="tables_include" value="LS"> LS</label><br>
+                        <label><input type="checkbox" name="tables_include" value="LSEG1"> LSEG1</label><br>
+                        <label><input type="checkbox" name="tables_include" value="LSEG2"> LSEG2</label><br>
+                        <label><input type="checkbox" name="tables_include" value="CBL"> CBL</label><br>
+                        <label>Full bars:
+                            <select id="Bar" onchange="updateHiddenInput('Bar')">
+                                <option value="">No selection</option>
+                                {% for i in range(0, 9) %}
+                                    <option value="{{i}}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </label><br>
+                        <label>Adjacent bars:
+                            <select id="ABar" onchange="updateHiddenInput('ABar')">
+                                <option value="">No selection</option>
+                                {% for i in range(0, 7) %}
+                                    <option value="{{i}}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </label><br>
+                        <label>Opposite bars:
+                            <select id="OBar" onchange="updateHiddenInput('OBar')">
+                                <option value="">No selection</option>
+                                {% for i in range(0, 9) %}
+                                    <option value="{{i}}">{{ i }}</option>
+                                {% endfor %}
+                                <option value="12">12</option>
+                            </select>
+                        </label><br>
+                        <label>Diags:
+                            <select id="Diag" onchange="updateHiddenInput('Diag')">
+                                <option value="">No selection</option>
+                                {% for i in range(0, 9) %}
+                                    <option value="{{i}}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </label><br>
+                        <label>Adjacent diags:
+                            <select id="ADiag" onchange="updateHiddenInput('ADiag')">
+                                <option value="">No selection</option>
+                                {% for i in range(0, 7) %}
+                                    <option value="{{i}}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </label><br>
+                        <input type="hidden" id="BarTable" name="tables_include">
+                        <input type="hidden" id="ABarTable" name="tables_include">
+                        <input type="hidden" id="OBarTable" name="tables_include">
+                        <input type="hidden" id="DiagTable" name="tables_include">
+                        <input type="hidden" id="ADiagTable" name="tables_include">
+                    </div>
+                    <div>
+                        <h3>Excluding:</h3>
+                        <label><input type="checkbox" name="tables_exclude" value="CLL"> CLL</label><br>
+                        <label><input type="checkbox" name="tables_exclude" value="EG1"> EG1</label><br>
+                        <label><input type="checkbox" name="tables_exclude" value="EG2"> EG2</label><br>
+                        <label><input type="checkbox" name="tables_exclude" value="TCLL"> TCLL</label><br>
+                        <label><input type="checkbox" name="tables_exclude" value="TEG1"> TEG1</label><br>
+                        <label><input type="checkbox" name="tables_exclude" value="TEG2"> TEG2</label><br>
+                        <label><input type="checkbox" name="tables_exclude" value="LS"> LS</label><br>
+                        <label><input type="checkbox" name="tables_exclude" value="LSEG1"> LSEG1</label><br>
+                        <label><input type="checkbox" name="tables_exclude" value="LSEG2"> LSEG2</label><br>
+                        <label><input type="checkbox" name="tables_exclude" value="CBL"> CBL</label><br>
+                    </div>
                 </div>
-                <div>
-                    <h3>Excluding:</h3>
-                    <label><input type="checkbox" name="tables_exclude" value="CLL"> CLL</label><br>
-                    <label><input type="checkbox" name="tables_exclude" value="EG1"> EG1</label><br>
-                    <label><input type="checkbox" name="tables_exclude" value="EG2"> EG2</label><br>
-                    <label><input type="checkbox" name="tables_exclude" value="TCLL"> TCLL</label><br>
-                    <label><input type="checkbox" name="tables_exclude" value="TEG1"> TEG1</label><br>
-                    <label><input type="checkbox" name="tables_exclude" value="TEG2"> TEG2</label><br>
-                    <label><input type="checkbox" name="tables_exclude" value="LS"> LS</label><br>
-                    <label><input type="checkbox" name="tables_exclude" value="LSEG1"> LSEG1</label><br>
-                    <label><input type="checkbox" name="tables_exclude" value="LSEG2"> LSEG2</label><br>
-                    <label><input type="checkbox" name="tables_exclude" value="CBL"> CBL</label><br>
-                </div>
-            </div>
-            <input type="submit" value="Submit query">
-        </form>
-        <form action="/scramble_search" method="POST">
-            <h2>Search by Scramble</h2>
-            <input type="text" id="scramble" name="scramble" size="30" placeholder="R U R' U R U2 R'"/>
-            <h3></h3>
-            <input type="submit" value="Search by scramble">
-        </form>
-    </div>
+                <input type="submit" value="Submit query">
+            </form>
+            <form action="/scramble_search" method="POST">
+                <h2>Search by Scramble</h2>
+                <input type="text" id="scramble" name="scramble" size="30" placeholder="R U R' U R U2 R'"/>
+                <h3></h3>
+                <input type="submit" value="Search by scramble">
+            </form>
+        </div>
+    </main>
 
     <footer style="background-color: #f4f4f9; text-align: center; padding: 10px; margin-top: 20px; color: #666;">
         <p>Developed by <a href="https://www.worldcubeassociation.org/persons/2015SALO01" target="_blank">Álvaro Aguilar Salobreña</a> and <a href="https://www.worldcubeassociation.org/persons/2016GALA04" target="_blank">Andrés Rodríguez Galán</a></p>
+        <p>Contact us: <a href= "mailto:twobytwoweb@gmail.com">twobytwoweb@gmail.com</a></p>
     </footer>
 
     <!-- JavaScript para actualizar el valor del campo oculto -->
