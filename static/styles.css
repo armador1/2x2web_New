@@ -23,6 +23,7 @@ h2 {
 }
 
 .container {
+
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -31,12 +32,15 @@ h2 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.image-container {
-    text-align: center;
-    margin-bottom: 20px;
+.container-state {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 .state-image {
+    margin-left: 0;
+    margin-right: auto;
     max-width: 100%;
     height: auto;
     border: 1px solid #ccc;
@@ -144,6 +148,8 @@ td img {
 .solutions {
     margin-bottom: 20px;
     font-size: 1em;
+    grid-column: 1 / 3;
+    grid-row: 7;
 }
 
 .solutions ul {
@@ -160,7 +166,11 @@ td img {
 }
 
 .buttons {
-    text-align: center;
+    grid-column: 1;
+    grid-row: 6;
+    display: block;
+    margin-right: auto;
+    margin-left: 0;
 }
 
 .btn {
@@ -182,6 +192,7 @@ td img {
 .btn:active {
     background-color: #004080;
 }
+
 .back-link {
     display: inline-block;
     margin-top: 20px;
@@ -202,6 +213,8 @@ td img {
     align-items: center;
     margin-top: 10px;
     gap: 10px;
+    grid-column: 2;
+    grid-row: 6;
 }
 
 .bubble {
@@ -278,4 +291,25 @@ td img {
 #donate-button-container {
     display: flex;
     justify-content: center;
+}
+
+.contenedor2 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+figure {
+    margin: 0;
+    max-width: 2000px;
+}
+
+img {
+    height: auto;
+}
+
+figcaption {
+    font-size: 0.9em;
+    text-align: center;
+    margin-top: 5px;
 }
