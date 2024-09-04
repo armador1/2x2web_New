@@ -16,65 +16,69 @@
     </header>
 
     <main class="container">
-        <div class="image-container">
-            <img id="state-image" src="{{ image_url }}" alt="Imagen del Estado" class="state-image">
-        </div>
+        <a href="{{ url_for('index') }}" class="back-link" style="margin-bottom: 20px; display: inline-block;">Return to
+            main page</a>
 
-
-        <div class="buttons">
-            <button class="btn" onclick="updateState('x')">x</button>
-            <button class="btn" onclick="updateState('x3')">x'</button>
-            <button class="btn" onclick="updateState('y')">y</button>
-            <button class="btn" onclick="updateState('y3')">y'</button>
-            <button class="btn" onclick="updateState('z')">z</button>
-            <button class="btn" onclick="updateState('z3')">z'</button>
-        </div>
-        <div class="buttons">
-            <button class="btn" onclick="updateState('x2')">x2</button>
-            <button class="btn" onclick="updateState('y2')">y2</button>
-            <button class="btn" onclick="updateState('z2')">z2</button>
-        </div>
-
-        <div class="bubbles">
-            {% for item in methods_and_labels %}
-                {% if item.is_number %}
-                    {% if item.condition > 0 %}
-                        <span class="bubble {{ item.class }}">{{ item.condition }} {{ item.label }}{% if item.condition > 1 %}s{% endif %}</span>
-                    {% endif %}
-                {% elif item.condition %}
-                    <span class="bubble {{ item.class }}">{{ item.label }}</span>
-                {% endif %}
-            {% endfor %}
-        </div>
-
-        <div class="scramble">
-            <h2>Scramble: <span id="scramble-text">{{ scramble }}</span></h2>
-        </div>
-
-        {% if oo %}
-            <div class="details">
-                <p><strong>OO Alg:</strong> {{ oo }}</p>
+        <div class="container-state">
+            <div style="grid-column: 1;grid-row: 1 / 6;">
+                <img id="state-image" src="{{ image_url }}" alt="State Image" class="state-image">
             </div>
-        {% endif %}
-        
-        <div class="details">
-            <form
-                id="oo-form"
-                method="POST"
-                action="https://script.google.com/macros/s/AKfycbz7kn9HHsB4exl8ushgUJLmT-sy89huBuSt3RtAF-o5HgqKlPAZ8zfrj0McA2vj6ubG/exec">
-                Submit your OO alg here: <input type="text" id="ooalg" name="ooalg" required>
-                <input type="hidden" id="state" name="state" value="{{ state }}">
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+            <div class="buttons">
+                <button class="btn" onclick="updateState('x')">x</button>
+                <button class="btn" onclick="updateState('x3')">x'</button>
+                <button class="btn" onclick="updateState('x2')">x2</button>
+                <button class="btn" onclick="updateState('y')">y</button>
+                <button class="btn" onclick="updateState('y3')">y'</button>
+                <button class="btn" onclick="updateState('y2')">y2</button>
+                <button class="btn" onclick="updateState('z')">z</button>
+                <button class="btn" onclick="updateState('z3')">z'</button>
+                <button class="btn" onclick="updateState('z2')">z2</button>
+            </div>
 
-        <div class="solutions">
-            <h2>Optimal solutions ({{ moves }} moves)</h2>
-            <ul id="solutions-list">
-                {% for solution in solutions %}
-                    <li>{{ solution }}</li>
+            <div style="display:block;grid-column: 2;grid-row: 2;">
+                <h2>Scramble: <span id="scramble-text">{{ scramble }}</span></h2>
+            </div>
+            <div style="display:block;grid-column: 2;grid-row: 4;">
+                    {% if oo %}
+                        <div class="details">
+                            <p><strong>OO Alg:</strong> {{ oo }}</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="details">
+                        <form
+                            id="oo-form"
+                            method="POST"
+                            action="https://script.google.com/macros/s/AKfycbz7kn9HHsB4exl8ushgUJLmT-sy89huBuSt3RtAF-o5HgqKlPAZ8zfrj0McA2vj6ubG/exec">
+                            Submit your OO alg here: <input type="text" id="ooalg" name="ooalg" required>
+                            <input type="hidden" id="state" name="state" value="{{ state }}">
+                            <button class="btn" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+
+            <div class="bubbles">
+                {% for item in methods_and_labels %}
+                    {% if item.is_number %}
+                        {% if item.condition > 0 %}
+                            <span class="bubble {{ item.class }}">{{ item.condition }} {{ item.label }}{% if item.condition > 1 %}s{% endif %}</span>
+                        {% endif %}
+                    {% elif item.condition %}
+                        <span class="bubble {{ item.class }}">{{ item.label }}</span>
+                    {% endif %}
                 {% endfor %}
-            </ul>
+            </div>
+
+            <div class="solutions">
+                <h2>Optimal solutions ({{ moves }} moves)</h2>
+                <ul id="solutions-list">
+                    {% for solution in solutions %}
+                        <li>{{ solution }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
         </div>
 
         <a href="{{ url_for('index') }}" class="back-link">Return to main page</a>
