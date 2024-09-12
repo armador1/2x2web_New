@@ -614,7 +614,7 @@ def search3():
                                    methods_and_labels=methods_and_labels(Main.translDB(found_state)))
         else:
             return "No se encontró el estado.", 404
-
+        
 @app.route('/rotate_solution')
 def rotate_solution():
     solution = request.args.get('solution', '')
@@ -622,5 +622,6 @@ def rotate_solution():
     return jsonify({'result': rotated_solution})
 
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=80)
