@@ -488,6 +488,132 @@ def search2():
         else:
             return "No se encontró el estado.", 404
 
+@app.route('/insertion_search', methods=['GET', 'POST'])
+def search3():
+    if request.method == 'POST':
+        scramble = request.form.get('scramble')
+        inv = scramble.split(' ')
+        inv.reverse()
+        scramble = inv.join(' ')
+        rots = ['x2','z','x3','','z3','x']
+        nrots = ['y','y2','y3']
+        egl = open('EG.txt')
+        ef = [False,False,False,False,False,False]
+        tst = []
+        for state in egl:
+            statel = ast.literal_eval(state)
+            st = TranslateStList(statel)
+            for i in range(0,6):
+                if st[4*i] == st[4*i+1] and st[4*i] == st[4*i+2] and st[4*i] == st[4*i+3]:
+                    ef[i] = True
+            newstl = []
+            for k in range(0,6):
+                if ef[k]:
+                    if k != 3:
+                        rot = getattr(Main, rots[ef])
+                        newstl.append(rot(Main.sList2s(st)))
+                    else:
+                        newstl.append(statel)
+
+            sts = []
+            for j in newstl:
+                sts.append(j)
+                for k in [0,1,2]:
+                    rot = getattr(Main,nrots[k])
+                    sts.append(rot(j))
+            
+            scraux = scramble.split(' ')
+            scraux = [s.replace("'", '3') for s in scraux]
+            for k in range(0,len(sts)):
+                try:
+                    for move in scraux:
+                        move_func = getattr(Main, move)
+                        sts[k] = move_func(sts[k])
+                except AttributeError:
+                    print('Invalid Scramble')
+                    continue
+            
+            for k in sts:
+                tst.append(fixCorner(TranslateStList(Main.s2sList(k))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.x(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.x(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.x3(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.x3(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.x(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+                sol = Main.z(k)
+                tst.append(fixCorner(TranslateStList(Main.s2sList(sol))))
+
+
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        results = None
+        for st in state_list:
+            cursor.execute("SELECT * FROM solutionsTable WHERE state = ? LIMIT 1", (Main.invtranslDB(st),))
+            results = cursor.fetchone()
+            if results:
+                break
+
+        conn.close()
+
+        if results:
+            found_state = results['state']
+            manage_folder(SUBIMAGE_FOLDER)
+            sub_st2img(Main.translDB(found_state))
+            # print(translDB(found_state))
+            image_filename = generate_image_name(ast.literal_eval(Main.translDB(found_state)))
+            # print(image_filename)
+            image_url = url_for('static', filename=f'SubImages/{image_filename}')
+            # print(image_url)
+            return render_template('state_details.html',
+                                   state=Main.translDB(found_state),
+                                   solutions=json.loads(results['solutions']),
+                                   image_url=image_url,
+                                   moves=results['moves'],
+                                   oo=results['oo'],
+                                   methods_and_labels=methods_and_labels(Main.translDB(found_state)))
+        else:
+            return "No se encontró el estado.", 404
 
 @app.route('/rotate_solution')
 def rotate_solution():
